@@ -1,0 +1,3 @@
+typer==0.3.2
+snow-pyrepl==0.51
+cloudscraper==1.2.58

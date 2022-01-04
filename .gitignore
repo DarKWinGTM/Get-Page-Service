@@ -1,0 +1,5 @@
+*.log
+poetry.*
+*_awcloud-*.json
+restart.*
+package-lock.*

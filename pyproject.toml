@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "repl_python3_Get-Page"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+grequests = "^0.6.0"
+pytz = "^2021.3"
+Flask = "^2.0.2"
+typer = "^0.3.2"
+cloudscraper = "*"
+snow-pyrepl = "0.51"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

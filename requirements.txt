@@ -1,3 +1,4 @@
 typer==0.3.2
-snow-pyrepl==0.50
+snow-pyrepl==0.51
 cloudscraper==1.2.58
+requests-html==0.10.0

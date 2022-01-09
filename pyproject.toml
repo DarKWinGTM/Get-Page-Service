@@ -11,6 +11,8 @@ pytz = "^2021.3"
 Flask = "^2.0.2"
 typer = "^0.3.2"
 cloudscraper = "*"
+requests-html = "0.10.0"
+snow-pyrepl = "0.51"
 
 [tool.poetry.dev-dependencies]
 

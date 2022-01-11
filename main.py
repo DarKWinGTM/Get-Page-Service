@@ -10,7 +10,7 @@ import _thread
 import datetime
 import grequests
 import cloudscraper
-from requests_html import HTMLSession
+#   from requests_html import HTMLSession
 from inspect import currentframe as SourceCodeLine
 from flask import Flask, json, jsonify, request, redirect, session, send_from_directory, Response, make_response, render_template
 import gc
@@ -22,11 +22,13 @@ import snow_pyrepl as pyrepl
 timedate = datetime.datetime
 timezone = pytz.timezone
 
-requestsHTML = HTMLSession()
+#   requestsHTML = HTMLSession()
 
 logging.getLogger("requests").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 logging.getLogger("snow_pyrepl").setLevel(logging.WARNING)
+#   logging.getLogger("requests").addHandler(logging.NullHandler())
+#   requests_log.propagate = False
 
 app = Flask(
     __name__, 
@@ -121,7 +123,7 @@ def chk_token(user, name, sid):
         #   data = json.loads(r.text.split("<script id=\"__NEXT_DATA__\" type=\"application/json\">")[1].split("</script>")[0])['props']['pageProps']['connectionMetadata']
         #   return data['token'], f"{data['gurl']}/wsv2/{data['token']}"
         
-        ren_token(user, name, sid, r.request.headers['User-Agent'])
+        #   ren_token(user, name, sid, r.request.headers['User-Agent'])
 
         print(f'{ timedate.now() } CHECK :: { SourceCodeLine().f_lineno } :: { user } { name } - { r.status_code }')
         return r.status_code
@@ -129,34 +131,34 @@ def chk_token(user, name, sid):
         print(f'{ timedate.now() } CHECK :: { SourceCodeLine().f_lineno } :: { user } { name } - 503')
         return 503
 
-def ren_token(user, name, sid, uag):
-    try:
-        r = requestsHTML.get(
-            f'https://replit.com/@{ user }/{ name }', 
-            headers = {
-        		'Content-Type'      : 'application/json',
-        		'connect.sid'       : sid,
-        		'X-Requested-With'  : 'https://replit.com',
-        		'Origin'            : 'https://replit.com',
-                'referer'           : f'https://replit.com/@{ user }/{ name }',
-                'Cache-Control'     : 'no-cache',
-                'Cookie'            : f'connect.sid={ sid }; ', 
-                'User-Agent'        : uag
-            },
-        	cookies = {
-        		'connect.sid'       : sid
-        	},
-            timeout = 32
-        )
-        #   print( r )
-        #   print( r.content )
-        #   data = json.loads(r.text.split("<script id=\"__NEXT_DATA__\" type=\"application/json\">")[1].split("</script>")[0])['props']['pageProps']['connectionMetadata']
-        #   return data['token'], f"{data['gurl']}/wsv2/{data['token']}"
-        print(f'{ timedate.now() } PRINT :: { SourceCodeLine().f_lineno } :: { user } { name } - { r.status_code }')
-        return r.status_code
-    except:
-        print(f'{ timedate.now() } PRINT :: { SourceCodeLine().f_lineno } :: { user } { name } - 503')
-        return 503
+#   def ren_token(user, name, sid, uag):
+#       try:
+#           r = requestsHTML.get(
+#               f'https://replit.com/@{ user }/{ name }', 
+#               headers = {
+#           		'Content-Type'      : 'application/json',
+#           		'connect.sid'       : sid,
+#           		'X-Requested-With'  : 'https://replit.com',
+#           		'Origin'            : 'https://replit.com',
+#                   'referer'           : f'https://replit.com/@{ user }/{ name }',
+#                   'Cache-Control'     : 'no-cache',
+#                   'Cookie'            : f'connect.sid={ sid }; ', 
+#                   'User-Agent'        : uag
+#               },
+#           	cookies = {
+#           		'connect.sid'       : sid
+#           	},
+#               timeout = 32
+#           )
+#           #   print( r )
+#           #   print( r.content )
+#           #   data = json.loads(r.text.split("<script id=\"__NEXT_DATA__\" type=\"application/json\">")[1].split("</script>")[0])['props']['pageProps']['connectionMetadata']
+#           #   return data['token'], f"{data['gurl']}/wsv2/{data['token']}"
+#           print(f'{ timedate.now() } PRINT :: { SourceCodeLine().f_lineno } :: { user } { name } - { r.status_code }')
+#           return r.status_code
+#       except:
+#           print(f'{ timedate.now() } PRINT :: { SourceCodeLine().f_lineno } :: { user } { name } - 503')
+#           return 503
 
 @app.command(help="Output the current version for Replit CLI")
 def version():
@@ -295,16 +297,9 @@ class PYREPLIT():
                     'runMain':{
                     }
                 }); #   print( self.output )
-
-                time.sleep(5)
                 
             except Exception as e:
                 print(f'{ timedate.now() } ERROR :: { SourceCodeLine().f_lineno } :: { self.user } { self.name } - { e }')
-                time.sleep(4)
-                self.connect('shellrun2')
-                break
-            
-            time.sleep( random.randrange(3) )
             
             break
 
@@ -333,15 +328,9 @@ class PYREPLIT():
 		            }
                 }); #   print( self.output )
                 time.sleep(5)
-
                 
             except Exception as e:
                 print(f'{ timedate.now() } ERROR :: { SourceCodeLine().f_lineno } :: { self.user } { self.name } - { e }')
-                time.sleep(4)
-                self.connect('exec')
-                continue
-            
-            time.sleep( random.randrange(3) )
             
             break
 
@@ -395,14 +384,8 @@ class PYREPLIT():
                 }); #   print( self.output )
                 time.sleep(5)
 
-                
             except Exception as e:
                 print(f'{ timedate.now() } ERROR :: { SourceCodeLine().f_lineno } :: { self.user } { self.name } - { e }')
-                time.sleep(4)
-                self.connect('exec')
-                continue
-            
-            time.sleep( random.randrange(5) )
             
             break
 
@@ -517,7 +500,7 @@ class WEBCHECK():
                             re.split('/|\.', self.load[self.cccc].url)[2]
                         ])
                     ).gits()
-                    if random.randrange(100) >= 16:
+                    if random.randrange(100) >= 72:
                         PYREPLIT(
                             repl = '/'.join([
                                 re.split('/|\.', self.load[self.cccc].url)[3], 
@@ -525,11 +508,11 @@ class WEBCHECK():
                             ])
                         ).kills()
                     time.sleep(8)
-                    chk_token(
-                        re.split('/|\.', self.load[self.cccc].url)[3], 
-                        re.split('/|\.', self.load[self.cccc].url)[2], 
-                        __sid__.strip()
-                    )
+                    #   chk_token(
+                    #       re.split('/|\.', self.load[self.cccc].url)[3], 
+                    #       re.split('/|\.', self.load[self.cccc].url)[2], 
+                    #       __sid__.strip()
+                    #   )
                     
                     PYREPLIT(
                         repl = '/'.join([
@@ -558,21 +541,21 @@ class WEBCHECK():
 
                     print( f'{ timedate.now() } { self.thread } 200 : {self.cccc:02n}', self.load[self.cccc].url )
 
-                    if random.randrange(100) >= 50:
-                        chk_token(
-                            re.split('/|\.', self.load[self.cccc].url)[3], 
-                            re.split('/|\.', self.load[self.cccc].url)[2], 
-                            __sid__.strip()
-                        )
+                    #   if random.randrange(100) >= 50:
+                    #       chk_token(
+                    #           re.split('/|\.', self.load[self.cccc].url)[3], 
+                    #           re.split('/|\.', self.load[self.cccc].url)[2], 
+                    #           __sid__.strip()
+                    #       )
                     
                     try     : 
                         if not self.root[self.cccc] == '':
                             _thread.start_new_thread(requests.get(self.root[self.cccc]) , ())
                     except  : pass
-                    try     : 
-                        if not self.root[self.cccc] == '':
-                            _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }'), ())
-                    except  : pass
+                    #   try     : 
+                    #       if not self.root[self.cccc] == '':
+                    #           _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }'), ())
+                    #   except  : pass
                     
                     try     : 
                         if re.search('awcloud-token', self.load[self.cccc].url):
@@ -580,13 +563,13 @@ class WEBCHECK():
                         else:
                             _thread.start_new_thread(requests.get(self.load[self.cccc].url.replace('/login', '/run')), ())
                     except  : pass
-                    try     : _thread.start_new_thread(requests.post(self.load[self.cccc].url.replace('/login', '')), ())
-                    except  : pass
-                    try     : _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url.replace("/login", "") }'), ())
-                    except  : pass
+                    #   try     : _thread.start_new_thread(requests.post(self.load[self.cccc].url.replace('/login', '')), ())
+                    #   except  : pass
+                    #   try     : _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url.replace("/login", "") }'), ())
+                    #   except  : pass
                     
         print('\n'.join([str( f'{ timedate.now() } { self.thread } DONE ' + str(x) ) for x in self.list]))
-        time.sleep( random.randrange( 80, 160 ) )
+        #   time.sleep( random.randrange( 80, 160 ) )
 
     def chk(
         self
@@ -663,12 +646,12 @@ class WEBCHECK():
                                 ])
                             ).kills()
                             time.sleep(8)
-                        if random.randrange(100) >= 16:
-                            chk_token(
-                                re.split('/|\.', self.load[self.cccc].url)[3], 
-                                re.split('/|\.', self.load[self.cccc].url)[2], 
-                                __sid__.strip()
-                            )
+                        #   if random.randrange(100) >= 16:
+                        #       chk_token(
+                        #           re.split('/|\.', self.load[self.cccc].url)[3], 
+                        #           re.split('/|\.', self.load[self.cccc].url)[2], 
+                        #           __sid__.strip()
+                        #       )
 
                         PYREPLIT(
                             repl = '/'.join([
@@ -677,10 +660,10 @@ class WEBCHECK():
                             ])
                         ).shell()
 
-                        try     : 
-                            if not self.root[self.cccc] == '':
-                                _thread.start_new_thread(requests.get(self.root[self.cccc]) , ())
-                        except  : pass
+                        #   try     : 
+                        #       if not self.root[self.cccc] == '':
+                        #           _thread.start_new_thread(requests.get(self.root[self.cccc]) , ())
+                        #   except  : pass
                         try     : 
                             if not self.root[self.cccc] == '':
                                 _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }'), ())
@@ -697,15 +680,15 @@ class WEBCHECK():
 
                         print( f'{ timedate.now() } { self.thread } 200 : {self.cccc:02n}', self.load[self.cccc].url )
 
-                        if random.randrange(100) >= 50:
-                            chk_token(
-                                re.split('/|\.', self.load[self.cccc].url)[3], 
-                                re.split('/|\.', self.load[self.cccc].url)[2], 
-                                __sid__.strip()
-                            )
+                        #   if random.randrange(100) >= 50:
+                        #       chk_token(
+                        #           re.split('/|\.', self.load[self.cccc].url)[3], 
+                        #           re.split('/|\.', self.load[self.cccc].url)[2], 
+                        #           __sid__.strip()
+                        #       )
 
-                        try     : _thread.start_new_thread(requests.post(self.load[self.cccc].url), ())
-                        except  : pass
+                        #   try     : _thread.start_new_thread(requests.post(self.load[self.cccc].url), ())
+                        #   except  : pass
                         try     : _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url }'), ())
                         except  : pass
 
@@ -803,6 +786,7 @@ class WEBCHECK():
             print('\n'.join([str( f'{ timedate.now() } { self.thread } DONE ' + str(x) ) for x in self.list]))
             time.sleep( random.randrange(120) )
 
+
 i = []
 for x in [
     #   'PatiwatNumbut/Get-Page-Run-Token'
@@ -842,6 +826,40 @@ for x in [
     'NodeNetwork003/aw-packedtrx-express-20003',
     'NodeNetwork003/aw-packedtrx-express-20004',
     'NodeNetwork003/aw-packedtrx-express-20005',
+
+    #   NodeNetwork tonmaster.1.08@gmail.com
+    'NodeNetwork/aw-express-20001',
+    'NodeNetwork/aw-express-20002',
+    'NodeNetwork/aw-express-20003',
+    'NodeNetwork/aw-express-20004',
+    'NodeNetwork/aw-express-20005',
+    'NodeNetwork/aw-express-20001',
+    'NodeNetwork/aw-express-20002',
+    'NodeNetwork/aw-express-20003',
+    'NodeNetwork/aw-express-20004',
+    'NodeNetwork/aw-express-20005',
+    'NodeNetwork/aw-express-20006',
+    'NodeNetwork/aw-express-20007',
+    'NodeNetwork/aw-express-20008',
+    'NodeNetwork/aw-express-20009',
+    'NodeNetwork/aw-express-20010',
+
+    #   NodeNetwork001 tonmaster.1.08+001@gmail.com
+    'NodeNetwork001/aw-express-20001',
+    'NodeNetwork001/aw-express-20002',
+    'NodeNetwork001/aw-express-20003',
+    'NodeNetwork001/aw-express-20004',
+    'NodeNetwork001/aw-express-20005',
+    'NodeNetwork001/aw-express-20001',
+    'NodeNetwork001/aw-express-20002',
+    'NodeNetwork001/aw-express-20003',
+    'NodeNetwork001/aw-express-20004',
+    'NodeNetwork001/aw-express-20005',
+    'NodeNetwork001/aw-express-20006',
+    'NodeNetwork001/aw-express-20007',
+    'NodeNetwork001/aw-express-20008',
+    'NodeNetwork001/aw-express-20009',
+    'NodeNetwork001/aw-express-20010',
 
     #   NodeNetwork002 tonmaster.1.08+002@gmail.com
     'NodeNetwork002/aw-express-20001',
@@ -889,6 +907,29 @@ else:
     i = []
 i = []
 for x in [
+    # DarKWinGTM
+    'https://t6u0k.sse.codesandbox.io', 
+    'https://hxl0o.sse.codesandbox.io', 
+    'https://jebfs.sse.codesandbox.io', 
+    'https://vgqm5.sse.codesandbox.io', 
+    'https://sncvu.sse.codesandbox.io', 
+    'https://8r4pc.sse.codesandbox.io', 
+    'https://mk2v0.sse.codesandbox.io', 
+    'https://bjxwk.sse.codesandbox.io', 
+    'https://ity0i.sse.codesandbox.io', 
+    'https://h8mte.sse.codesandbox.io',
+    
+    # NodeNetwork10800001
+    'https://og69k.sse.codesandbox.io', 
+    'https://4vpre.sse.codesandbox.io', 
+    'https://3vo69.sse.codesandbox.io', 
+    'https://yir26.sse.codesandbox.io', 
+    'https://p6mzp.sse.codesandbox.io', 
+    'https://iqpkf.sse.codesandbox.io', 
+    'https://iol00.sse.codesandbox.io', 
+    'https://hl4e4.sse.codesandbox.io', 
+    'https://8cqcc.sse.codesandbox.io', 
+    'https://d7v51.sse.codesandbox.io',
 
     # NodeNetwork10800002
     'https://bd7ec.sse.codesandbox.io',
@@ -929,6 +970,142 @@ else:
 while True:
     i = []
     for x in [
+        #   'patiwatnumbut/awcloud-token',
+        'FFPREMIUM/awcloud-token',
+        #-   'artwisut/awcloud-token', 
+        #-   'sakchaipingsran/awcloud-token', 
+        #-   'lifferty/awcloud-token', 
+        'praniti99/awcloud-token', 
+        #-   'fourz/awcloud-token', 
+        #-   'jo1232/awcloud-token', 
+        #-   'boomswxx945/awcloud-token', 
+        'kuk1990/awcloud-token', 
+        'fluffy1004/awcloud-token', 
+        'mikemaesod/awcloud-token', 
+        #-   'tee51551/awcloud-token', 
+        'thanachai12/awcloud-token', 
+        #-   'supernop/awcloud-token', 
+        #-   'aorsai5/awcloud-token', 
+        #-   'najabangaras/awcloud-token', 
+        #-   'bowonratkitisak/awcloud-token', 
+        #-   'akepordee/awcloud-token', 
+        #-   'songeiei1/awcloud-token', 
+        'nunkh0ng/awcloud-token', 
+        #-   'golfgappz/awcloud-token', 
+        #-   'la12va/awcloud-token', 
+        #-   'khowglong2/awcloud-token', 
+        #-   'awjate/awcloud-token', 
+        #-   'starshiprs/awcloud-token', 
+        #-   'man88/awcloud-token', 
+        #-   'dhongerus/awcloud-token', 
+        #-   'awduchbot1/awcloud-token', 
+        'aongseal/awcloud-token', 
+        #-   'catsince/awcloud-token', 
+        #-   'e25icl/awcloud-token', 
+        #-   'tongatipbk/awcloud-token', 
+        'micvbn/awcloud-token', 
+        #-   'domminic11/awcloud-token', 
+        #-   'onibrku10/awcloud-token', 
+        #-   'aphichai123/awcloud-token', 
+        'aengkung1234/awcloud-token', 
+        #-   'ae9041a/awcloud-token', 
+        #-   'mustaza300/awcloud-token', 
+        'yaizaq/awcloud-token', 
+        #-   'pppeach/awcloud-token', 
+        #-   'thanaphol2123/awcloud-token', 
+        'soongusto/awcloud-token', 
+        'appleblue1/awcloud-token', 
+        'teeraporn12519/awcloud-token', 
+        'jakkarinninpan/awcloud-token', 
+        #-  'kolokden01/awcloud-token', 
+        'pattarasakphuan/awcloud-token', 
+        #-   'idspoon/awcloud-token', 
+        #-   'maxnoizas/awcloud-token', 
+        'biskittlm/awcloud-token', 
+        'joetk074/awcloud-token', 
+        #-   'wealthme01/awcloud-token', 
+        #-   'bb4747/awcloud-token', 
+        'pond37611/awcloud-token', 
+        'trananhquan/awcloud-token', 
+        #-   'pongtanaanon789/awcloud-token', 
+        #-   'mostok002/awcloud-token', 
+        'TranAnhQuan0001/awcloud-token', 
+        'TranAnhQuan0002/awcloud-token', 
+        'TranAnhQuan0003/awcloud-token', 
+        'sg3000/awcloud-token', 
+        #-   'alienbot15/awcloud-token', 
+        #-   'bas120741/awcloud-token', 
+        #-   'replitbotaw01/awcloud-token', 
+        #-  'replitbotaw02', 
+        #-  'replitbotaw03', 
+        #-  'rovesea/awcloud-token', 
+        'phillipbansilis/awcloud-token', 
+        'PhillipBan00001/awcloud-token', 
+        'PhillipBan00002/awcloud-token', 
+        #-  'itinba/awcloud-token', 
+        #-  'onemanstory/awcloud-token', 
+        #-  'apolloart16/awcloud-token', 
+        'areeyagamefi/awcloud-token', 
+        'ninjauk13/awcloud-token', 
+        #-  'sodomkk/awcloud-token', 
+        #-  'fireworkiz/awcloud-token', 
+        #-  'warapon1/awcloud-token', 
+        #-  'ohhwirat/awcloud-token', 
+        #-  'oliengshop757/awcloud-token', 
+        'maxmagod/awcloud-token', 
+        #-  'maii15/awcloud-token', 
+        #-  'noom1/awcloud-token', 
+        #-  'pixx2020/awcloud-token', 
+        #-  'mafiazarr/awcloud-token', 
+        'raicyberteam/awcloud-token', 
+        'oak2323/awcloud-token', 
+        'poomminerz/awcloud-token', 
+        #-  'Bankenstein/awcloud-token', 
+        'areeyagamefi2/awcloud-token', 
+        #-  'freddy007/awcloud-token', 
+        #-  'alderman08/awcloud-token',  
+        #-  'awdvii3636/awcloud-token',  
+        #-  'poopui1234/awcloud-token',  
+        #-  'awboat5656/awcloud-token',  
+        #-  'awboat6565/awcloud-token',  
+        #-  'awbpn5454/awcloud-token',  
+        #-  'awbpn4545/awcloud-token',  
+        #-  'awall6363/awcloud-token',  
+        'saksitbot/awcloud-token',  
+        #-  'spints34/awcloud-token',  
+        #-  'thekidkudo/awcloud-token',  
+        'sometimex21/awcloud-token',  
+        #-  'zekisz1150/awcloud-token',  
+        #-  'janghyuk789563/awcloud-token',  
+        'Alentine/awcloud-token',  
+        #-  'MOGTH001/awcloud-token',  
+        #-  'waritza/awcloud-token',  
+        'nanthakawut191/awcloud-token',  
+        #-  'werayutphonyut/awcloud-token',  
+        #-  'rachan7428/awcloud-token',  
+        'sophonnjk/awcloud-token', 
+        #-  'Mazajan2011/awcloud-token',  
+        'jakkapongw/awcloud-token',  
+        #   'sinlapa/awcloud-token',  
+        'zenith009/awcloud-token',   
+        'rainbowz7/awcloud-token', 
+        #-  'c1193/awcloud-token', 
+        #-  'sinkidlukyim5/awcloud-token', 
+        'alosimbay/awcloud-token', 
+        'ArmTheeranai/awcloud-token', 
+        'maxim522th/awcloud-token', 
+        'imoyoyo/awcloud-token', 
+        'djnusr001/awcloud-token', 
+        'aum833/awcloud-token', 
+        'codeduck7210/awcloud-token', 
+        'sodamint1z/awcloud-token', 
+        'maxwalker123/awcloud-token', 
+        'maxwalker543/awcloud-token', 
+        'khunote/awcloud-token', 
+        'thunderbow/awcloud-token', 
+        'affranchise/awcloud-token', 
+        'ChristopherRico/awcloud-token', 
+        'ChanonAcm/awcloud-token', 
         'joealien/awcloud-token', 
         #-   'deedie/awcloud-token', 
         'JeingBTC/awcloud-token', 
@@ -975,6 +1152,7 @@ while True:
         'zeuss001/awcloud-token', 
         'MadzCat468/awcloud-token', 
         'TranAnhQuan0004/awcloud-token', 
+        'TranAnhQuan0005/awcloud-token', 
         #-  'iplayse7en/awcloud-token', 
         'porpy286/awcloud-token', 
         'punpun1703/awcloud-token',
@@ -1014,7 +1192,9 @@ while True:
         'JUNKBQY/awcloud-token', 
         'darun00/awcloud-token', 
         'jeffyandcake/awcloud-token', 
-        'megacawaiiz/awcloud-token'
+        'megacawaiiz/awcloud-token', 
+        'bodytaylor/awcloud-token', 
+        'yodzalala89/awcloud-token'
     ]:
         i.append(x)
         if len(i) >= 10:
@@ -1030,7 +1210,7 @@ while True:
     else:
         i = []
 
-    time.sleep( 30 )
+    time.sleep( 5 )
 
     continue
 

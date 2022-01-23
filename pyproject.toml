@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "repl_python3_Get-Page"
+name = "repl_python3_Get-Page-Service-001"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
@@ -15,7 +15,7 @@ fake-useragent = "^0.1.11"
 google-nucleus = "^0.6.0"
 requests-html = "^0.10.0"
 pyppeteer = "^1.0.1"
-snow-pyrepl = "0.51"
+snow-pyrepl = "^0.51"
 
 [tool.poetry.dev-dependencies]
 

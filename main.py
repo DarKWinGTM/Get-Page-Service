@@ -15,6 +15,10 @@ from inspect import currentframe as SourceCodeLine
 from flask import Flask, json, jsonify, request, redirect, session, send_from_directory, Response, make_response, render_template
 import gc
 
+# IMPORT FOR keep_alive 
+# from keep_alive import keep_alive
+# keep_alive()
+
 # IMPORT FOR PYREPLIT
 import typer, requests, zipfile, shutil, logging
 import snow_pyrepl as pyrepl
@@ -69,8 +73,9 @@ def get_json(user, name, sid):
 	}
 	r = requests.get(
         f"https://replit.com/data/repls/@{ user }/{ name }", 
-        headers=headers, 
-        cookies=cookies
+        headers = headers, 
+        cookies = cookies, 
+        timeout = 16
     )
 	return r.json()['id']
 
@@ -208,7 +213,7 @@ class PYREPLIT():
             try:
                 if self.token == None or self.url == None or random.randrange(100) >= 64:
                     self.token, self.url    = get_token(self.user, self.name, self.key)
-                    open(f'{ self.user }_{ self.name }.json', 'w').write(json.dumps({
+                    open(f'data/{ self.user }_{ self.name }.json', 'w').write(json.dumps({
                             'id'    : self.id,
                             'token' : self.token,
                             'url'   : self.url
@@ -234,7 +239,7 @@ class PYREPLIT():
                 continue
         
             try:
-                self.runner             = self.client.open(vals, '')
+                self.runner             = self.client.open(vals[0], vals[1])
             except Exception as e:
                 self.token      = None
                 self.url        = None
@@ -260,18 +265,18 @@ class PYREPLIT():
         self.user               = self.repl.split("/")[0]
         self.name               = self.repl.split("/")[1]
         self.key                = __sid__.strip()
-        self.token              = None if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['token']
-        self.url                = None if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['url']
+        self.token              = None if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['token']
+        self.url                = None if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['url']
         self.client             = None
-        self.id                 = None if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['id']
+        self.id                 = None if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
         self.runner             = None
         
-        self.connect('shellrun2')
+        self.connect(['shellrun2', ''])
         
         while True:
                 
             try:
-                if random.randrange(100) >= 92:
+                if random.randrange(100) >= 86:
                     self.output = self.runner.run({
                         'clear':{
                         }
@@ -284,19 +289,21 @@ class PYREPLIT():
                     }
                 }); #   print( self.output )
 
-                time.sleep(5)
+                time.sleep(2)
 
                 self.output = self.runner.run({
                     'runMain':{
                     }
                 }); #   print( self.output )
 
-                time.sleep(5)
+                time.sleep(2)
 
                 self.output = self.runner.run({
                     'runMain':{
                     }
                 }); #   print( self.output )
+                
+                time.sleep(2)
                 
             except Exception as e:
                 print(f'{ timedate.now() } ERROR :: { SourceCodeLine().f_lineno } :: { self.user } { self.name } - { e }')
@@ -310,13 +317,13 @@ class PYREPLIT():
         self.user               = self.repl.split("/")[0]
         self.name               = self.repl.split("/")[1]
         self.key                = __sid__.strip()
-        self.token              = None if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['token']
-        self.url                = None if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['url']
+        self.token              = None if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['token']
+        self.url                = None if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['url']
         self.client             = None
-        self.id                 = None if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['id']
+        self.id                 = None if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
         self.runner             = None
         
-        self.connect('exec')
+        self.connect(['exec', ''])
 
         while True:
                 
@@ -324,7 +331,7 @@ class PYREPLIT():
                 
                 self.output = self.runner.run({
 		            "exec": {
-		            	"args": random.choice([['busybox', 'reboot']] + [['kill', '1']])
+		            	"args": random.choice([['busybox', 'reboot']] + [['kill',  '1']])
 		            }
                 }); #   print( self.output )
                 time.sleep(5)
@@ -341,13 +348,13 @@ class PYREPLIT():
         self.user               = self.repl.split("/")[0]
         self.name               = self.repl.split("/")[1]
         self.key                = __sid__.strip()
-        self.token              = None if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['token']
-        self.url                = None if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['url']
+        self.token              = None if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['token']
+        self.url                = None if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['url']
         self.client             = None
-        self.id                 = None if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['id']
+        self.id                 = None if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
         self.runner             = None
         
-        self.connect('exec')
+        self.connect(['exec', ''])
 
         while True:
                 
@@ -355,34 +362,34 @@ class PYREPLIT():
                 
                 self.output = self.runner.run({
 		            "exec": {
-		            	"args": [ 'git', 'fetch' '--all' ]
+		            	"args": [ 'git', 'fetch', '--all' ]
 		            }
                 }); #   print( self.output )
-                time.sleep(5)
+                time.sleep(1)
                 self.output = self.runner.run({
 		            "exec": {
 		            	"args": [ 'git', 'reset', '--hard' ]
 		            }
                 }); #   print( self.output )
-                time.sleep(5)
+                time.sleep(1)
                 self.output = self.runner.run({
 		            "exec": {
 		            	"args": [ 'git', 'reset', '--hard', 'origin/master' ]
 		            }
                 }); #   print( self.output )
-                time.sleep(5)
+                time.sleep(1)
                 self.output = self.runner.run({
 		            "exec": {
 		            	"args": [ 'git', 'stash', 'save', "''" ]
 		            }
                 }); #   print( self.output )
-                time.sleep(5)
+                time.sleep(1)
                 self.output = self.runner.run({
 		            "exec": {
 		            	"args": [ 'git', 'pull']
 		            }
                 }); #   print( self.output )
-                time.sleep(5)
+                time.sleep(1)
 
             except Exception as e:
                 print(f'{ timedate.now() } ERROR :: { SourceCodeLine().f_lineno } :: { self.user } { self.name } - { e }')
@@ -425,7 +432,9 @@ class WEBCHECK():
             self.thread = _thread.start_new_thread(self.chk, ())
         if self.mode == 'ace':
             self.thread = _thread.start_new_thread(self.ace, ())
-            
+        if self.mode == 'get':
+            self.thread = _thread.start_new_thread(self.get, ())
+      
 
     def run(
         self
@@ -446,15 +455,15 @@ class WEBCHECK():
             self.name               = self.base.split("/")[1]
             self.load.append(grequests.get(
                 f'https://{ self.name }.{ self.user }.repl.co/login', 
-                timeout = 12
+                timeout = 16
             ))
             self.gate.append(f'https://{ self.name }.{ self.user }.repl.co')
             try:
                 self.root.append(f'https://{0}.repl.co/login'.format(
-                    "" if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['id']
+                    "" if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
                 ))
             except:
-                os.remove(f'{ self.user }_{ self.name }.json')
+                os.remove(f'data/{ self.user }_{ self.name }.json')
                 self.root.append(f'https://{0}.repl.co/login'.format("" ))
             #   self.root                 = 
             #   self.runner             = None
@@ -468,7 +477,7 @@ class WEBCHECK():
         self.resp.append(
             grequests.map(self.load)
         )
-            
+        
         for self.aaaa, self.bbbb in enumerate( self.resp ):
             
             self.list.append([])
@@ -500,20 +509,18 @@ class WEBCHECK():
                             re.split('/|\.', self.load[self.cccc].url)[2]
                         ])
                     ).gits()
-                    if random.randrange(100) >= 72:
+                    if random.randrange(100) >= 50:
                         PYREPLIT(
                             repl = '/'.join([
                                 re.split('/|\.', self.load[self.cccc].url)[3], 
                                 re.split('/|\.', self.load[self.cccc].url)[2]
                             ])
                         ).kills()
-                    time.sleep(8)
                     #   chk_token(
                     #       re.split('/|\.', self.load[self.cccc].url)[3], 
                     #       re.split('/|\.', self.load[self.cccc].url)[2], 
                     #       __sid__.strip()
                     #   )
-                    
                     PYREPLIT(
                         repl = '/'.join([
                             re.split('/|\.', self.load[self.cccc].url)[3], 
@@ -523,11 +530,12 @@ class WEBCHECK():
                     
                     try     : 
                         if not self.root[self.cccc] == '':
-                            _thread.start_new_thread(requests.get(self.root[self.cccc]) , ())
+                            #   requests.get(self.root[self.cccc])
+                            requests.get(self.load[self.cccc].url.replace('/login', '/__tail'), timeout = 16)
                     except  : pass
                     try     : 
                         if not self.root[self.cccc] == '':
-                            _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }'), ())
+                            requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }', timeout = 16)
                     except  : pass
 
                 elif (len([
@@ -550,27 +558,170 @@ class WEBCHECK():
                     
                     try     : 
                         if not self.root[self.cccc] == '':
-                            _thread.start_new_thread(requests.get(self.root[self.cccc]) , ())
+                            requests.get(self.root[self.cccc], timeout = 16)
                     except  : pass
                     #   try     : 
                     #       if not self.root[self.cccc] == '':
-                    #           _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }'), ())
+                    #           requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }')
                     #   except  : pass
                     
                     try     : 
                         if re.search('awcloud-token', self.load[self.cccc].url):
-                            _thread.start_new_thread(requests.get(self.load[self.cccc].url.replace('/login', '')), ())
+                            requests.get(self.load[self.cccc].url.replace('/login', ''), timeout = 16)
                         else:
-                            _thread.start_new_thread(requests.get(self.load[self.cccc].url.replace('/login', '/run')), ())
+                            requests.get(self.load[self.cccc].url.replace('/login', '/run'), timeout = 16)
                     except  : pass
-                    #   try     : _thread.start_new_thread(requests.post(self.load[self.cccc].url.replace('/login', '')), ())
+                    #   try     : requests.post(self.load[self.cccc].url.replace('/login', ''), timeout = 16)
                     #   except  : pass
-                    #   try     : _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url.replace("/login", "") }'), ())
+                    #   try     : requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url.replace("/login", "") }', timeout = 16)
                     #   except  : pass
                     
         print('\n'.join([str( f'{ timedate.now() } { self.thread } DONE ' + str(x) ) for x in self.list]))
         #   time.sleep( random.randrange( 80, 160 ) )
+    
+    
+    def get(
+        self
+    ):
 
+        time.sleep(random.uniform(0.11, 5.64))
+
+        #   while True:
+        
+        self.load = []
+        self.resp = []
+        self.list = []
+        self.gate = []
+        self.root = []
+        
+        for self.base in self.data:
+            self.user               = self.base.split("/")[0]
+            self.name               = self.base.split("/")[1]
+            self.load.append(grequests.get(
+                f'https://{ self.name }.{ self.user }.repl.co', 
+                timeout = 16
+            ))
+            self.gate.append(f'https://{ self.name }.{ self.user }.repl.co')
+            try:
+                self.root.append(f'https://{0}.repl.co'.format(
+                    "" if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
+                ))
+            except:
+                os.remove(f'data/{ self.user }_{ self.name }.json')
+                self.root.append(f'https://{0}.repl.co'.format("" ))
+            #   self.root                 = 
+            #   self.runner             = None
+            
+        self.resp.append(
+            grequests.map(self.load)
+        )
+        self.resp.append(
+            grequests.map(self.load)
+        )
+        self.resp.append(
+            grequests.map(self.load)
+        )
+        for self.aaaa, self.bbbb in enumerate( self.resp ):
+            
+            self.list.append([])
+            
+            for self.cccc, self.dddd in enumerate( self.resp[ self.aaaa ] ):
+                try:
+                    self.list[self.aaaa].append( self.resp[self.aaaa][self.cccc].status_code )
+                except:
+                    self.list[self.aaaa].append( 502 )
+        
+        for self.aaaa, self.bbbb in enumerate( self.list ):
+            for self.cccc, self.dddd in enumerate( self.list[ self.aaaa ] ):
+                
+                if (len([
+                    self.eeee[ self.cccc ] for self.eeee in self.list if self.eeee[ self.cccc ] == 200
+                ]) <= 1 or not ([
+                    self.eeee[ self.cccc ] for self.eeee in self.list
+                ][-1] == 200)) and not self.gate[self.cccc] == None:
+                    
+                    self.gate[self.cccc] = None
+                    
+                    print( f'{ timedate.now() } 503 : {self.cccc:02n}', self.load[self.cccc].url, [
+                        self.eeee[ self.cccc ] for self.eeee in self.list
+                    ] )
+                    
+                    #   PYREPLIT(
+                    #       repl = '/'.join([
+                    #           re.split('/|\.', self.load[self.cccc].url)[3], 
+                    #           re.split('/|\.', self.load[self.cccc].url)[2]
+                    #       ])
+                    #   ).gits()
+                    #   if random.randrange(100) >= 86:
+                    PYREPLIT(
+                        repl = '/'.join([
+                            re.split('/|\.', self.load[self.cccc].url)[3], 
+                            re.split('/|\.', self.load[self.cccc].url)[2]
+                        ])
+                    ).kills()
+                    time.sleep(8)
+                    #   chk_token(
+                    #       re.split('/|\.', self.load[self.cccc].url)[3], 
+                    #       re.split('/|\.', self.load[self.cccc].url)[2], 
+                    #       __sid__.strip()
+                    #   )
+                    
+                    PYREPLIT(
+                        repl = '/'.join([
+                            re.split('/|\.', self.load[self.cccc].url)[3], 
+                            re.split('/|\.', self.load[self.cccc].url)[2]
+                        ])
+                    ).shell()
+                    
+                    #   try     : 
+                    #       if not self.root[self.cccc] == '':
+                    #           #   requests.get(self.root[self.cccc])
+                    #           requests.get(f'{ self.load[self.cccc].url }/__tail', timeout = 16)
+                    #   except  : pass
+                    #   try     : 
+                    #       if not self.root[self.cccc] == '':
+                    #           requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }', timeout = 16)
+                    #   except  : pass
+
+                elif (len([
+                    self.eeee[ self.cccc ] for self.eeee in self.list if self.eeee[ self.cccc ] == 200
+                ]) >= 1 or ([
+                    self.eeee[ self.cccc ] for self.eeee in self.list
+                ][-1] == 200)) and not self.gate[self.cccc] == True:
+                
+                    self.gate[self.cccc] = True
+                    
+                    print( f'{ timedate.now() } 200 : {self.cccc:02n}', self.load[self.cccc].url )
+
+                    #   if random.randrange(100) >= 50:
+                    #       chk_token(
+                    #           re.split('/|\.', self.load[self.cccc].url)[3], 
+                    #           re.split('/|\.', self.load[self.cccc].url)[2], 
+                    #           __sid__.strip()
+                    #       )
+                    
+                    #   try     : 
+                    #       if not self.root[self.cccc] == '':
+                    #           requests.get(self.root[self.cccc], timeout = 16)
+                    #   except  : pass
+                    #   try     : 
+                    #       if not self.root[self.cccc] == '':
+                    #           requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }')
+                    #   except  : pass
+                    
+                    #   try     : 
+                    #       
+                    #       requests.get(f'{ self.load[self.cccc].url }/__tail', timeout = 16)
+                    #   except  : pass
+                    #   try     : requests.post(self.load[self.cccc].url.replace('/login', ''), timeout = 16), ())
+                    #   except  : pass
+                    #   try     : requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url.replace("/login", "") }', timeout = 16)
+                    #   except  : pass
+                    
+        print('\n'.join([str( f'{ timedate.now() } DONE ' + str(x) ) for x in self.list]))
+        #   time.sleep( random.randrange( 80, 160 ) )
+        
+        
     def chk(
         self
     ):
@@ -595,11 +746,11 @@ class WEBCHECK():
                 self.gate.append(f'https://{ self.name }.{ self.user }.repl.co')
                 try:
                     self.root.append(f'https://{0}.repl.co'.format(
-                        "" if not os.path.isfile( f'{ self.user }_{ self.name }.json' ) else json.load(open( f'{ self.user }_{ self.name }.json' ))['id']
+                        "" if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
                     ))
                 except:
-                    os.remove(f'{ self.user }_{ self.name }.json')
-                    self.root.append(f'https://{0}.repl.co'.format("" ))
+                    os.remove(f'data/{ self.user }_{ self.name }.json')
+                    self.root.append(f'https://{0}.repl.co'.format(""))
                 #   self.root                 = 
                 #   self.runner             = None
 
@@ -638,14 +789,14 @@ class WEBCHECK():
                             self.eeee[ self.cccc ] for self.eeee in self.list
                         ] )
 
-                        if random.randrange(100) >= 64:
-                            PYREPLIT(
-                                repl = '/'.join([
-                                    re.split('/|\.', self.load[self.cccc].url)[3], 
-                                    re.split('/|\.', self.load[self.cccc].url)[2]
-                                ])
-                            ).kills()
-                            time.sleep(8)
+                        #   if random.randrange(100) >= 86:
+                        PYREPLIT(
+                            repl = '/'.join([
+                                re.split('/|\.', self.load[self.cccc].url)[3], 
+                                re.split('/|\.', self.load[self.cccc].url)[2]
+                            ])
+                        ).kills()
+                        #       time.sleep(8)
                         #   if random.randrange(100) >= 16:
                         #       chk_token(
                         #           re.split('/|\.', self.load[self.cccc].url)[3], 
@@ -660,13 +811,14 @@ class WEBCHECK():
                             ])
                         ).shell()
 
-                        #   try     : 
-                        #       if not self.root[self.cccc] == '':
-                        #           _thread.start_new_thread(requests.get(self.root[self.cccc]) , ())
-                        #   except  : pass
                         try     : 
                             if not self.root[self.cccc] == '':
-                                _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }'), ())
+                                #   _thread.start_new_thread(requests.get(self.root[self.cccc]) , ())
+                                requests.get(f'{ self.load[self.cccc] }/__tai',  timeout = 16)
+                        except  : pass
+                        try     : 
+                            if not self.root[self.cccc] == '':
+                                requests.get(f'https://render-tron.appspot.com/screenshot/{ self.root[self.cccc] }', timeout = 16)
                         except  : pass
 
                     elif (len([
@@ -687,9 +839,9 @@ class WEBCHECK():
                         #           __sid__.strip()
                         #       )
 
-                        #   try     : _thread.start_new_thread(requests.post(self.load[self.cccc].url), ())
+                        #   try     : requests.post(self.load[self.cccc].url)
                         #   except  : pass
-                        try     : _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url }'), ())
+                        try     : requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url }', timeout = 16)
                         except  : pass
 
             print('\n'.join([str( f'{ timedate.now() } { self.thread } DONE ' + str(x) ) for x in self.list]))
@@ -762,7 +914,7 @@ class WEBCHECK():
 
                         for count in range(0, 6):
                             try         :
-                                _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url }'), ())
+                                requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url }', timeout = 16)
                             except      :
                                 pass
                             time.sleep( random.randrange(8) )
@@ -779,7 +931,7 @@ class WEBCHECK():
 
                         if random.randrange(100) >= 64:
                             try     :
-                                _thread.start_new_thread(requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url }'), ())
+                                requests.get(f'https://render-tron.appspot.com/screenshot/{ self.load[self.cccc].url }', timeout = 16)
                             except  :
                                 pass
 
@@ -787,185 +939,185 @@ class WEBCHECK():
             time.sleep( random.randrange(120) )
 
 
-i = []
-for x in [
-    #   'PatiwatNumbut/Get-Page-Run-Token'
-    #   'PatiwatNumbut/Get-Page-Run-Cpanel-0000'
-    #   'PatiwatNumbut/Get-Page-Run-Cpanel-0001'
-    #   'PatiwatNumbut/Get-Page',
-    #   NodeNetwork tonmaster.1.08@gmail.com
-    'NodeNetwork/aw-packedtrx-express-00001',
-    'NodeNetwork/aw-packedtrx-express-00002',
-    'NodeNetwork/aw-packedtrx-express-00003',
-    'NodeNetwork/aw-packedtrx-express-00004',
-    'NodeNetwork/aw-packedtrx-express-00005',
-    'NodeNetwork/aw-packedtrx-express-10001',
-    'NodeNetwork/aw-packedtrx-express-10002',
-    'NodeNetwork/aw-packedtrx-express-10003',
-    'NodeNetwork/aw-packedtrx-express-10004',
-    'NodeNetwork/aw-packedtrx-express-10005',
-    'NodeNetwork/aw-packedtrx-express-20001',
-    'NodeNetwork/aw-packedtrx-express-20002',
-    'NodeNetwork/aw-packedtrx-express-20003',
-    'NodeNetwork/aw-packedtrx-express-20004',
-    'NodeNetwork/aw-packedtrx-express-20005',
-    
-    #   NodeNetwork003 tonmaster.1.08+003@gmail.com
-    'NodeNetwork003/aw-packedtrx-express-00001',
-    'NodeNetwork003/aw-packedtrx-express-00002',
-    'NodeNetwork003/aw-packedtrx-express-00003',
-    'NodeNetwork003/aw-packedtrx-express-00004',
-    'NodeNetwork003/aw-packedtrx-express-00005',
-    'NodeNetwork003/aw-packedtrx-express-10001',
-    'NodeNetwork003/aw-packedtrx-express-10002',
-    'NodeNetwork003/aw-packedtrx-express-10003',
-    'NodeNetwork003/aw-packedtrx-express-10004',
-    'NodeNetwork003/aw-packedtrx-express-10005',
-    'NodeNetwork003/aw-packedtrx-express-20001',
-    'NodeNetwork003/aw-packedtrx-express-20002',
-    'NodeNetwork003/aw-packedtrx-express-20003',
-    'NodeNetwork003/aw-packedtrx-express-20004',
-    'NodeNetwork003/aw-packedtrx-express-20005',
-
-    #   NodeNetwork tonmaster.1.08@gmail.com
-    'NodeNetwork/aw-express-20001',
-    'NodeNetwork/aw-express-20002',
-    'NodeNetwork/aw-express-20003',
-    'NodeNetwork/aw-express-20004',
-    'NodeNetwork/aw-express-20005',
-    'NodeNetwork/aw-express-20001',
-    'NodeNetwork/aw-express-20002',
-    'NodeNetwork/aw-express-20003',
-    'NodeNetwork/aw-express-20004',
-    'NodeNetwork/aw-express-20005',
-    'NodeNetwork/aw-express-20006',
-    'NodeNetwork/aw-express-20007',
-    'NodeNetwork/aw-express-20008',
-    'NodeNetwork/aw-express-20009',
-    'NodeNetwork/aw-express-20010',
-
-    #   NodeNetwork001 tonmaster.1.08+001@gmail.com
-    'NodeNetwork001/aw-express-20001',
-    'NodeNetwork001/aw-express-20002',
-    'NodeNetwork001/aw-express-20003',
-    'NodeNetwork001/aw-express-20004',
-    'NodeNetwork001/aw-express-20005',
-    'NodeNetwork001/aw-express-20001',
-    'NodeNetwork001/aw-express-20002',
-    'NodeNetwork001/aw-express-20003',
-    'NodeNetwork001/aw-express-20004',
-    'NodeNetwork001/aw-express-20005',
-    'NodeNetwork001/aw-express-20006',
-    'NodeNetwork001/aw-express-20007',
-    'NodeNetwork001/aw-express-20008',
-    'NodeNetwork001/aw-express-20009',
-    'NodeNetwork001/aw-express-20010',
-
-    #   NodeNetwork002 tonmaster.1.08+002@gmail.com
-    'NodeNetwork002/aw-express-20001',
-    'NodeNetwork002/aw-express-20002',
-    'NodeNetwork002/aw-express-20003',
-    'NodeNetwork002/aw-express-20004',
-    'NodeNetwork002/aw-express-20005',
-    'NodeNetwork002/aw-express-20001',
-    'NodeNetwork002/aw-express-20002',
-    'NodeNetwork002/aw-express-20003',
-    'NodeNetwork002/aw-express-20004',
-    'NodeNetwork002/aw-express-20005',
-    'NodeNetwork002/aw-express-20006',
-    'NodeNetwork002/aw-express-20007',
-    'NodeNetwork002/aw-express-20008',
-    'NodeNetwork002/aw-express-20009',
-    'NodeNetwork002/aw-express-20010',
-
-    #   NodeNetwork003 tonmaster.1.08+003@gmail.com
-    'NodeNetwork003/aw-express-20001',
-    'NodeNetwork003/aw-express-20002',
-    'NodeNetwork003/aw-express-20003',
-    'NodeNetwork003/aw-express-20004',
-    'NodeNetwork003/aw-express-20005',
-    'NodeNetwork003/aw-express-20001',
-    'NodeNetwork003/aw-express-20002',
-    'NodeNetwork003/aw-express-20003',
-    'NodeNetwork003/aw-express-20004',
-    'NodeNetwork003/aw-express-20005',
-    'NodeNetwork003/aw-express-20006',
-    'NodeNetwork003/aw-express-20007',
-    'NodeNetwork003/aw-express-20008',
-    'NodeNetwork003/aw-express-20009',
-    'NodeNetwork003/aw-express-20010'
-]:
-    i.append(x)
-    if len(i) >= 10:
-        WEBCHECK(i, mode = 'chk').thread()
-        i = []
-
-if len(i) >= 1:
-    WEBCHECK(i, mode = 'chk').thread()
-    i = []
-else:
-    i = []
-i = []
-for x in [
-    # DarKWinGTM
-    'https://t6u0k.sse.codesandbox.io', 
-    'https://hxl0o.sse.codesandbox.io', 
-    'https://jebfs.sse.codesandbox.io', 
-    'https://vgqm5.sse.codesandbox.io', 
-    'https://sncvu.sse.codesandbox.io', 
-    'https://8r4pc.sse.codesandbox.io', 
-    'https://mk2v0.sse.codesandbox.io', 
-    'https://bjxwk.sse.codesandbox.io', 
-    'https://ity0i.sse.codesandbox.io', 
-    'https://h8mte.sse.codesandbox.io',
-    
-    # NodeNetwork10800001
-    'https://og69k.sse.codesandbox.io', 
-    'https://4vpre.sse.codesandbox.io', 
-    'https://3vo69.sse.codesandbox.io', 
-    'https://yir26.sse.codesandbox.io', 
-    'https://p6mzp.sse.codesandbox.io', 
-    'https://iqpkf.sse.codesandbox.io', 
-    'https://iol00.sse.codesandbox.io', 
-    'https://hl4e4.sse.codesandbox.io', 
-    'https://8cqcc.sse.codesandbox.io', 
-    'https://d7v51.sse.codesandbox.io',
-
-    # NodeNetwork10800002
-    'https://bd7ec.sse.codesandbox.io',
-    'https://woh4o.sse.codesandbox.io',
-    'https://6nif3.sse.codesandbox.io',
-    'https://qqh90.sse.codesandbox.io',
-    'https://fnox1.sse.codesandbox.io',
-    'https://hc5f0.sse.codesandbox.io',
-    'https://26do4.sse.codesandbox.io',
-    'https://7ffsv.sse.codesandbox.io',
-    'https://higoc.sse.codesandbox.io',
-    'https://7c8ep.sse.codesandbox.io',
-
-    # NodeNetwork10800003
-    'https://l3fdw.sse.codesandbox.io',
-    'https://fnsxo.sse.codesandbox.io',
-    'https://8dqhu.sse.codesandbox.io',
-    'https://lnop5.sse.codesandbox.io',
-    'https://4zc9j.sse.codesandbox.io',
-    'https://thxqn.sse.codesandbox.io',
-    'https://2qnif.sse.codesandbox.io',
-    'https://vjj79.sse.codesandbox.io',
-    'https://11vhu.sse.codesandbox.io',
-    'https://kr8gs.sse.codesandbox.io'
-]:
-    i.append(x)
-    if len(i) >= 10:
-        time.sleep(random.uniform(0.11, 0.64))
-        WEBCHECK(i, mode = 'ace').thread()
-        i = []
-
-if len(i) >= 1:
-    WEBCHECK(i, mode = 'ace').thread()
-    i = []
-else:
-    i = []
+#   i = []
+#   for x in [
+#       #   'PatiwatNumbut/Get-Page-Run-Token'
+#       #   'PatiwatNumbut/Get-Page-Run-Cpanel-0000'
+#       #   'PatiwatNumbut/Get-Page-Run-Cpanel-0001'
+#       #   'PatiwatNumbut/Get-Page',
+#       #   NodeNetwork tonmaster.1.08@gmail.com
+#       'NodeNetwork/aw-packedtrx-express-00001',
+#       'NodeNetwork/aw-packedtrx-express-00002',
+#       'NodeNetwork/aw-packedtrx-express-00003',
+#       'NodeNetwork/aw-packedtrx-express-00004',
+#       'NodeNetwork/aw-packedtrx-express-00005',
+#       'NodeNetwork/aw-packedtrx-express-10001',
+#       'NodeNetwork/aw-packedtrx-express-10002',
+#       'NodeNetwork/aw-packedtrx-express-10003',
+#       'NodeNetwork/aw-packedtrx-express-10004',
+#       'NodeNetwork/aw-packedtrx-express-10005',
+#       'NodeNetwork/aw-packedtrx-express-20001',
+#       'NodeNetwork/aw-packedtrx-express-20002',
+#       'NodeNetwork/aw-packedtrx-express-20003',
+#       'NodeNetwork/aw-packedtrx-express-20004',
+#       'NodeNetwork/aw-packedtrx-express-20005',
+#       
+#       #   NodeNetwork003 tonmaster.1.08+003@gmail.com
+#       'NodeNetwork003/aw-packedtrx-express-00001',
+#       'NodeNetwork003/aw-packedtrx-express-00002',
+#       'NodeNetwork003/aw-packedtrx-express-00003',
+#       'NodeNetwork003/aw-packedtrx-express-00004',
+#       'NodeNetwork003/aw-packedtrx-express-00005',
+#       'NodeNetwork003/aw-packedtrx-express-10001',
+#       'NodeNetwork003/aw-packedtrx-express-10002',
+#       'NodeNetwork003/aw-packedtrx-express-10003',
+#       'NodeNetwork003/aw-packedtrx-express-10004',
+#       'NodeNetwork003/aw-packedtrx-express-10005',
+#       'NodeNetwork003/aw-packedtrx-express-20001',
+#       'NodeNetwork003/aw-packedtrx-express-20002',
+#       'NodeNetwork003/aw-packedtrx-express-20003',
+#       'NodeNetwork003/aw-packedtrx-express-20004',
+#       'NodeNetwork003/aw-packedtrx-express-20005',
+#   
+#       #   NodeNetwork tonmaster.1.08@gmail.com
+#       'NodeNetwork/aw-express-20001',
+#       'NodeNetwork/aw-express-20002',
+#       'NodeNetwork/aw-express-20003',
+#       'NodeNetwork/aw-express-20004',
+#       'NodeNetwork/aw-express-20005',
+#       'NodeNetwork/aw-express-20001',
+#       'NodeNetwork/aw-express-20002',
+#       'NodeNetwork/aw-express-20003',
+#       'NodeNetwork/aw-express-20004',
+#       'NodeNetwork/aw-express-20005',
+#       'NodeNetwork/aw-express-20006',
+#       'NodeNetwork/aw-express-20007',
+#       'NodeNetwork/aw-express-20008',
+#       'NodeNetwork/aw-express-20009',
+#       'NodeNetwork/aw-express-20010',
+#   
+#       #   NodeNetwork001 tonmaster.1.08+001@gmail.com
+#       'NodeNetwork001/aw-express-20001',
+#       'NodeNetwork001/aw-express-20002',
+#       'NodeNetwork001/aw-express-20003',
+#       'NodeNetwork001/aw-express-20004',
+#       'NodeNetwork001/aw-express-20005',
+#       'NodeNetwork001/aw-express-20001',
+#       'NodeNetwork001/aw-express-20002',
+#       'NodeNetwork001/aw-express-20003',
+#       'NodeNetwork001/aw-express-20004',
+#       'NodeNetwork001/aw-express-20005',
+#       'NodeNetwork001/aw-express-20006',
+#       'NodeNetwork001/aw-express-20007',
+#       'NodeNetwork001/aw-express-20008',
+#       'NodeNetwork001/aw-express-20009',
+#       'NodeNetwork001/aw-express-20010',
+#   
+#       #   NodeNetwork002 tonmaster.1.08+002@gmail.com
+#       'NodeNetwork002/aw-express-20001',
+#       'NodeNetwork002/aw-express-20002',
+#       'NodeNetwork002/aw-express-20003',
+#       'NodeNetwork002/aw-express-20004',
+#       'NodeNetwork002/aw-express-20005',
+#       'NodeNetwork002/aw-express-20001',
+#       'NodeNetwork002/aw-express-20002',
+#       'NodeNetwork002/aw-express-20003',
+#       'NodeNetwork002/aw-express-20004',
+#       'NodeNetwork002/aw-express-20005',
+#       'NodeNetwork002/aw-express-20006',
+#       'NodeNetwork002/aw-express-20007',
+#       'NodeNetwork002/aw-express-20008',
+#       'NodeNetwork002/aw-express-20009',
+#       'NodeNetwork002/aw-express-20010',
+#   
+#       #   NodeNetwork003 tonmaster.1.08+003@gmail.com
+#       'NodeNetwork003/aw-express-20001',
+#       'NodeNetwork003/aw-express-20002',
+#       'NodeNetwork003/aw-express-20003',
+#       'NodeNetwork003/aw-express-20004',
+#       'NodeNetwork003/aw-express-20005',
+#       'NodeNetwork003/aw-express-20001',
+#       'NodeNetwork003/aw-express-20002',
+#       'NodeNetwork003/aw-express-20003',
+#       'NodeNetwork003/aw-express-20004',
+#       'NodeNetwork003/aw-express-20005',
+#       'NodeNetwork003/aw-express-20006',
+#       'NodeNetwork003/aw-express-20007',
+#       'NodeNetwork003/aw-express-20008',
+#       'NodeNetwork003/aw-express-20009',
+#       'NodeNetwork003/aw-express-20010'
+#   ]:
+#       i.append(x)
+#       if len(i) >= 10:
+#           WEBCHECK(i, mode = 'chk').thread()
+#           i = []
+#   
+#   if len(i) >= 1:
+#       WEBCHECK(i, mode = 'chk').thread()
+#       i = []
+#   else:
+#       i = []
+#   i = []
+#   for x in [
+#       # DarKWinGTM
+#       'https://t6u0k.sse.codesandbox.io', 
+#       'https://hxl0o.sse.codesandbox.io', 
+#       'https://jebfs.sse.codesandbox.io', 
+#       'https://vgqm5.sse.codesandbox.io', 
+#       'https://sncvu.sse.codesandbox.io', 
+#       'https://8r4pc.sse.codesandbox.io', 
+#       'https://mk2v0.sse.codesandbox.io', 
+#       'https://bjxwk.sse.codesandbox.io', 
+#       'https://ity0i.sse.codesandbox.io', 
+#       'https://h8mte.sse.codesandbox.io',
+#       
+#       # NodeNetwork10800001
+#       'https://og69k.sse.codesandbox.io', 
+#       'https://4vpre.sse.codesandbox.io', 
+#       'https://3vo69.sse.codesandbox.io', 
+#       'https://yir26.sse.codesandbox.io', 
+#       'https://p6mzp.sse.codesandbox.io', 
+#       'https://iqpkf.sse.codesandbox.io', 
+#       'https://iol00.sse.codesandbox.io', 
+#       'https://hl4e4.sse.codesandbox.io', 
+#       'https://8cqcc.sse.codesandbox.io', 
+#       'https://d7v51.sse.codesandbox.io',
+#   
+#       # NodeNetwork10800002
+#       'https://bd7ec.sse.codesandbox.io',
+#       'https://woh4o.sse.codesandbox.io',
+#       'https://6nif3.sse.codesandbox.io',
+#       'https://qqh90.sse.codesandbox.io',
+#       'https://fnox1.sse.codesandbox.io',
+#       'https://hc5f0.sse.codesandbox.io',
+#       'https://26do4.sse.codesandbox.io',
+#       'https://7ffsv.sse.codesandbox.io',
+#       'https://higoc.sse.codesandbox.io',
+#       'https://7c8ep.sse.codesandbox.io',
+#   
+#       # NodeNetwork10800003
+#       'https://l3fdw.sse.codesandbox.io',
+#       'https://fnsxo.sse.codesandbox.io',
+#       'https://8dqhu.sse.codesandbox.io',
+#       'https://lnop5.sse.codesandbox.io',
+#       'https://4zc9j.sse.codesandbox.io',
+#       'https://thxqn.sse.codesandbox.io',
+#       'https://2qnif.sse.codesandbox.io',
+#       'https://vjj79.sse.codesandbox.io',
+#       'https://11vhu.sse.codesandbox.io',
+#       'https://kr8gs.sse.codesandbox.io'
+#   ]:
+#       i.append(x)
+#       if len(i) >= 10:
+#           time.sleep(random.uniform(0.11, 0.64))
+#           WEBCHECK(i, mode = 'ace').thread()
+#           i = []
+#   
+#   if len(i) >= 1:
+#       WEBCHECK(i, mode = 'ace').thread()
+#       i = []
+#   else:
+#       i = []
     
 while True:
     i = []
@@ -975,7 +1127,7 @@ while True:
         #-   'artwisut/awcloud-token', 
         #-   'sakchaipingsran/awcloud-token', 
         #-   'lifferty/awcloud-token', 
-        'praniti99/awcloud-token', 
+        'Praniti99/awcloud-token', 
         #-   'fourz/awcloud-token', 
         #-   'jo1232/awcloud-token', 
         #-   'boomswxx945/awcloud-token', 
@@ -983,7 +1135,7 @@ while True:
         'fluffy1004/awcloud-token', 
         'mikemaesod/awcloud-token', 
         #-   'tee51551/awcloud-token', 
-        'thanachai12/awcloud-token', 
+        #-   'Thanachai12/awcloud-token', 
         #-   'supernop/awcloud-token', 
         #-   'aorsai5/awcloud-token', 
         #-   'najabangaras/awcloud-token', 
@@ -999,7 +1151,7 @@ while True:
         #-   'man88/awcloud-token', 
         #-   'dhongerus/awcloud-token', 
         #-   'awduchbot1/awcloud-token', 
-        'aongseal/awcloud-token', 
+        'AongSeaL/awcloud-token', 
         #-   'catsince/awcloud-token', 
         #-   'e25icl/awcloud-token', 
         #-   'tongatipbk/awcloud-token', 
@@ -1018,7 +1170,7 @@ while True:
         'teeraporn12519/awcloud-token', 
         'jakkarinninpan/awcloud-token', 
         #-  'kolokden01/awcloud-token', 
-        'pattarasakphuan/awcloud-token', 
+        'PattarasakPhuan/awcloud-token', 
         #-   'idspoon/awcloud-token', 
         #-   'maxnoizas/awcloud-token', 
         'biskittlm/awcloud-token', 
@@ -1026,7 +1178,7 @@ while True:
         #-   'wealthme01/awcloud-token', 
         #-   'bb4747/awcloud-token', 
         'pond37611/awcloud-token', 
-        'trananhquan/awcloud-token', 
+        'TranAnhQuan/awcloud-token', 
         #-   'pongtanaanon789/awcloud-token', 
         #-   'mostok002/awcloud-token', 
         'TranAnhQuan0001/awcloud-token', 
@@ -1039,7 +1191,7 @@ while True:
         #-  'replitbotaw02', 
         #-  'replitbotaw03', 
         #-  'rovesea/awcloud-token', 
-        'phillipbansilis/awcloud-token', 
+        'PhillipBansilIs/awcloud-token', 
         'PhillipBan00001/awcloud-token', 
         'PhillipBan00002/awcloud-token', 
         #-  'itinba/awcloud-token', 
@@ -1194,23 +1346,36 @@ while True:
         'jeffyandcake/awcloud-token', 
         'megacawaiiz/awcloud-token', 
         'bodytaylor/awcloud-token', 
-        'yodzalala89/awcloud-token'
+        'yodzalala89/awcloud-token', 
+        'khunnui/awcloud-token', 
+        'Fluke1472/awcloud-token', 
+        'kenjilinkin/awcloud-token', 
+        'bluelions1/awcloud-token', 
+        'askimo11/awcloud-token', 
+        'Arm070146/awcloud-token', 
+        'iPloy1984/awcloud-token', 
+        'Nubtung/awcloud-token', 
+        'hearthmind/awcloud-token', 
+        'Piktheline/awcloud-token', 
+        'preechar/awcloud-token', 
+        'anuchat/awcloud-token', 
+        'JoshHamana/awcloud-token'
     ]:
         i.append(x)
         if len(i) >= 10:
             #   time.sleep(random.uniform(0.11, 0.64))
             WEBCHECK(i).thread()
-            time.sleep( random.randrange( 1, 3 ) )
+            time.sleep( random.randrange( 1, 2 ) )
             i = []
 
     if len(i) >= 1:
         WEBCHECK(i).thread()
-        time.sleep( random.randrange( 1, 3 ) )
+        time.sleep( random.randrange( 1, 2 ) )
         i = []
     else:
         i = []
 
-    time.sleep( 5 )
+    time.sleep( 180 )
 
     continue
 

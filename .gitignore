@@ -3,3 +3,5 @@ poetry.*
 *_awcloud-*.json
 restart.*
 package-lock.*
+/node_modules
+/node_modules/*

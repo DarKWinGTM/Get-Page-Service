@@ -16,8 +16,8 @@ from flask import Flask, json, jsonify, request, redirect, session, send_from_di
 import gc
 
 # IMPORT FOR keep_alive 
-# from keep_alive import keep_alive
-# keep_alive()
+from keep_alive import keep_alive
+keep_alive()
 
 # IMPORT FOR PYREPLIT
 import typer, requests, zipfile, shutil, logging
@@ -211,7 +211,7 @@ class PYREPLIT():
 
             # GET REPLIT TOKEN AND URL
             try:
-                if self.token == None or self.url == None or random.randrange(100) >= 64:
+                if self.token == None or self.url == None or random.randrange(100) >= 86:
                     self.token, self.url    = get_token(self.user, self.name, self.key)
                     open(f'data/{ self.user }_{ self.name }.json', 'w').write(json.dumps({
                             'id'    : self.id,
@@ -1229,7 +1229,7 @@ while True:
         'sometimex21/awcloud-token',  
         #-  'zekisz1150/awcloud-token',  
         #-  'janghyuk789563/awcloud-token',  
-        'Alentine/awcloud-token',  
+        #-  'Alentine/awcloud-token',  
         #-  'MOGTH001/awcloud-token',  
         #-  'waritza/awcloud-token',  
         'nanthakawut191/awcloud-token',  
@@ -1285,10 +1285,10 @@ while True:
         'basekrab/awcloud-token', 
         #-  'rambutan1985/awcloud-token', 
         'testmonitor/awcloud-token', 
-        'Dear12345/awcloud-token', 
-        'dear123456/awcloud-token', 
+        #-  'Dear12345/awcloud-token', 
+        #-  'dear123456/awcloud-token', 
         'artnothing123/awcloud-token', 
-        'nonbelleskgame3/awcloud-token', 
+        #-  'nonbelleskgame3/awcloud-token', 
         'boomvespa/awcloud-token', 
         'nkpt23/awcloud-token', 
         'toomw81/awcloud-token', 
@@ -1299,7 +1299,7 @@ while True:
         'ittiphatkaewsod/awcloud-token', 
         'iRyoma/awcloud-token', 
         'rockbell123/awcloud-token', 
-        'sunza1234/awcloud-token', 
+        #-  'sunza1234/awcloud-token', 
         'robinjheart/awcloud-token', 
         'zeuss001/awcloud-token', 
         'MadzCat468/awcloud-token', 
@@ -1330,7 +1330,7 @@ while True:
         'tumtheeraphat/awcloud-token', 
         'wachirawitz/awcloud-token', 
         'ttamama/awcloud-token', 
-        'alienmineice321/awcloud-token', 
+        #-  'alienmineice321/awcloud-token', 
         'JSstarter1/awcloud-token', 
         'arunluch27/awcloud-token', 
         'Huapok/awcloud-token', 
@@ -1360,7 +1360,15 @@ while True:
         'preechar/awcloud-token', 
         'anuchat/awcloud-token', 
         'JoshHamana/awcloud-token', 
-        'suboom21/awcloud-token'
+        'suboom21/awcloud-token', 
+        'Ngameover/awcloud-token', 
+        'stepza403/awcloud-token', 
+        'SeamanChok/awcloud-token', 
+        'machiner001/awcloud-token', 
+        'peaclassic/awcloud-token', 
+        'thanawuta/awcloud-token', 
+        'telewiz/awcloud-token', 
+        'telewiz1/awcloud-token'
     ]:
         i.append(x)
         if len(i) >= 10:

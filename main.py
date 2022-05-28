@@ -459,15 +459,21 @@ class WEBCHECK():
             ))
             self.gate.append(f'https://{ self.name }.{ self.user }.repl.co')
             try:
-                self.root.append(f'https://{0}.repl.co/login'.format(
-                    "" if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
+                self.root.append('https://{0}.repl.co/login'.format(
+                    f'{ self.name }.{ self.user }' if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
                 ))
             except:
                 os.remove(f'data/{ self.user }_{ self.name }.json')
-                self.root.append(f'https://{0}.repl.co/login'.format("" ))
+                self.root.append('https://{0}.repl.co/login'.format(""))
             #   self.root                 = 
             #   self.runner             = None
             
+        self.resp.append(
+            grequests.map(self.load)
+        )
+        self.resp.append(
+            grequests.map(self.load)
+        )
         self.resp.append(
             grequests.map(self.load)
         )
@@ -493,9 +499,10 @@ class WEBCHECK():
                 
                 if (len([
                     self.eeee[ self.cccc ] for self.eeee in self.list if self.eeee[ self.cccc ] == 200
-                ]) <= 1 or not ([
-                    self.eeee[ self.cccc ] for self.eeee in self.list
-                ][-1] == 200)) and not self.gate[self.cccc] == None:
+                ]) <= 1) and not self.gate[self.cccc] == None:
+                #    or not ([
+                #       self.eeee[ self.cccc ] for self.eeee in self.list
+                #   ][-1] == 200)
                     
                     self.gate[self.cccc] = None
                     
@@ -603,12 +610,12 @@ class WEBCHECK():
             ))
             self.gate.append(f'https://{ self.name }.{ self.user }.repl.co')
             try:
-                self.root.append(f'https://{0}.repl.co'.format(
-                    "" if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
+                self.root.append('https://{0}.repl.co/login'.format(
+                    f'{ self.name }.{ self.user }' if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
                 ))
             except:
                 os.remove(f'data/{ self.user }_{ self.name }.json')
-                self.root.append(f'https://{0}.repl.co'.format("" ))
+                self.root.append('https://{0}.repl.co/login'.format(""))
             #   self.root                 = 
             #   self.runner             = None
             
@@ -744,15 +751,15 @@ class WEBCHECK():
                     timeout = 12
                 ))
                 self.gate.append(f'https://{ self.name }.{ self.user }.repl.co')
-                try:
-                    self.root.append(f'https://{0}.repl.co'.format(
-                        "" if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
-                    ))
-                except:
-                    os.remove(f'data/{ self.user }_{ self.name }.json')
-                    self.root.append(f'https://{0}.repl.co'.format(""))
-                #   self.root                 = 
-                #   self.runner             = None
+            try:
+                self.root.append('https://{0}.repl.co/login'.format(
+                    f'{ self.name }.{ self.user }' if not os.path.isfile( f'data/{ self.user }_{ self.name }.json' ) else json.load(open( f'data/{ self.user }_{ self.name }.json' ))['id']
+                ))
+            except:
+                os.remove(f'data/{ self.user }_{ self.name }.json')
+                self.root.append('https://{0}.repl.co/login'.format(""))
+            #   self.root                 = 
+            #   self.runner             = None
 
             self.resp.append(
                 grequests.map(self.load)
@@ -1124,10 +1131,10 @@ while True:
     for x in [
         #   'patiwatnumbut/awcloud-token',
         'FFPREMIUM/awcloud-token',
-        #-   'artwisut/awcloud-token', 
+        'artwisut/awcloud-token', 
         #-   'sakchaipingsran/awcloud-token', 
         #-   'lifferty/awcloud-token', 
-        'Praniti99/awcloud-token', 
+        #-    'Praniti99/awcloud-token', 
         #-   'fourz/awcloud-token', 
         #-   'jo1232/awcloud-token', 
         #-   'boomswxx945/awcloud-token', 
@@ -1142,7 +1149,7 @@ while True:
         #-   'bowonratkitisak/awcloud-token', 
         #-   'akepordee/awcloud-token', 
         #-   'songeiei1/awcloud-token', 
-        'nunkh0ng/awcloud-token', 
+        #-   'nunkh0ng/awcloud-token', 
         #-   'golfgappz/awcloud-token', 
         #-   'la12va/awcloud-token', 
         #-   'khowglong2/awcloud-token', 
@@ -1150,31 +1157,31 @@ while True:
         #-   'starshiprs/awcloud-token', 
         #-   'man88/awcloud-token', 
         #-   'dhongerus/awcloud-token', 
-        #-   'awduchbot1/awcloud-token', 
-        'AongSeaL/awcloud-token', 
+        'awduchbot1/awcloud-token', 
+        #-   'AongSeaL/awcloud-token', 
         #-   'catsince/awcloud-token', 
         #-   'e25icl/awcloud-token', 
         #-   'tongatipbk/awcloud-token', 
-        'micvbn/awcloud-token', 
+        #-   'micvbn/awcloud-token', 
         #-   'domminic11/awcloud-token', 
         #-   'onibrku10/awcloud-token', 
         #-   'aphichai123/awcloud-token', 
         'aengkung1234/awcloud-token', 
         #-   'ae9041a/awcloud-token', 
         #-   'mustaza300/awcloud-token', 
-        'yaizaq/awcloud-token', 
+        #-   'yaizaq/awcloud-token', 
         #-   'pppeach/awcloud-token', 
         #-   'thanaphol2123/awcloud-token', 
         'soongusto/awcloud-token', 
         'appleblue1/awcloud-token', 
-        'teeraporn12519/awcloud-token', 
-        'jakkarinninpan/awcloud-token', 
+        #-  'teeraporn12519/awcloud-token', 
+        'JakkarinNinpan/awcloud-token', 
         #-  'kolokden01/awcloud-token', 
         'PattarasakPhuan/awcloud-token', 
         #-   'idspoon/awcloud-token', 
         #-   'maxnoizas/awcloud-token', 
         'biskittlm/awcloud-token', 
-        'joetk074/awcloud-token', 
+        #-   'joetk074/awcloud-token', 
         #-   'wealthme01/awcloud-token', 
         #-   'bb4747/awcloud-token', 
         'pond37611/awcloud-token', 
@@ -1198,15 +1205,15 @@ while True:
         #-  'onemanstory/awcloud-token', 
         #-  'apolloart16/awcloud-token', 
         'areeyagamefi/awcloud-token', 
-        'ninjauk13/awcloud-token', 
+        #-  'ninjauk13/awcloud-token', 
         #-  'sodomkk/awcloud-token', 
         #-  'fireworkiz/awcloud-token', 
         #-  'warapon1/awcloud-token', 
         #-  'ohhwirat/awcloud-token', 
         #-  'oliengshop757/awcloud-token', 
-        'maxmagod/awcloud-token', 
+        #-  'maxmagod/awcloud-token', 
         #-  'maii15/awcloud-token', 
-        #-  'noom1/awcloud-token', 
+        'Noom1/awcloud-token', 
         #-  'pixx2020/awcloud-token', 
         #-  'mafiazarr/awcloud-token', 
         'raicyberteam/awcloud-token', 
@@ -1223,152 +1230,44 @@ while True:
         #-  'awbpn5454/awcloud-token',  
         #-  'awbpn4545/awcloud-token',  
         #-  'awall6363/awcloud-token',  
-        'saksitbot/awcloud-token',  
+        #-    'saksitbot/awcloud-token',  
         #-  'spints34/awcloud-token',  
         #-  'thekidkudo/awcloud-token',  
-        'sometimex21/awcloud-token',  
+        #-    'sometimex21/awcloud-token',  
         #-  'zekisz1150/awcloud-token',  
         #-  'janghyuk789563/awcloud-token',  
         #-  'Alentine/awcloud-token',  
         #-  'MOGTH001/awcloud-token',  
         #-  'waritza/awcloud-token',  
-        'nanthakawut191/awcloud-token',  
+        #-  'nanthakawut191/awcloud-token',  
         #-  'werayutphonyut/awcloud-token',  
         #-  'rachan7428/awcloud-token',  
         'sophonnjk/awcloud-token', 
         #-  'Mazajan2011/awcloud-token',  
-        'jakkapongw/awcloud-token',  
+        #-  'jakkapongw/awcloud-token',  
         #   'sinlapa/awcloud-token',  
-        'zenith009/awcloud-token',   
+        #-  'zenith009/awcloud-token',   
         'rainbowz7/awcloud-token', 
         #-  'c1193/awcloud-token', 
         #-  'sinkidlukyim5/awcloud-token', 
-        'alosimbay/awcloud-token', 
-        'ArmTheeranai/awcloud-token', 
-        'maxim522th/awcloud-token', 
-        'imoyoyo/awcloud-token', 
-        'djnusr001/awcloud-token', 
-        'aum833/awcloud-token', 
-        'codeduck7210/awcloud-token', 
+        #-  'alosimbay/awcloud-token', 
+        #-  'ArmTheeranai/awcloud-token', 
+        #-  'maxim522th/awcloud-token', 
+        #-  'imoyoyo/awcloud-token', 
+        #-  'djnusr001/awcloud-token', 
+        #-  'aum833/awcloud-token', 
+         #-  'codeduck7210/awcloud-token', 
         'sodamint1z/awcloud-token', 
-        'maxwalker123/awcloud-token', 
-        'maxwalker543/awcloud-token', 
-        'khunote/awcloud-token', 
+        #-  'maxwalker123/awcloud-token', 
+        #-  'maxwalker543/awcloud-token', 
+        #    'khunote/awcloud-token', 
         'thunderbow/awcloud-token', 
         'affranchise/awcloud-token', 
-        'ChristopherRico/awcloud-token', 
+        #-  'ChristopherRico/awcloud-token', 
         'ChanonAcm/awcloud-token', 
-        'joealien/awcloud-token', 
-        #-   'deedie/awcloud-token', 
-        'JeingBTC/awcloud-token', 
-        #-  'punthanin/awcloud-token', 
-        #-  'newawtothemoon1/awcloud-token', 
-        'AWCNT/awcloud-token', 
-        #-  'PunPathaninKaew/awcloud-token', 
-        'naptec/awcloud-token', 
-        'SucasemKlinmak2276/awcloud-token', 
-        'tar555/awcloud-token', 
-        'incenaja/awcloud-token', 
-        #-  'uselesswd/awcloud-token', 
-        'Aa034261643/awcloud-token', 
-        #-  'tonslum/awcloud-token', 
-        'MBZin/awcloud-token', 
-        'detection/awcloud-token', 
-        'jjj1928/awcloud-token', 
-        'samasak/awcloud-token', 
-        'newnowican/awcloud-token', 
-        'bluelions/awcloud-token', 
-        #-  'yuttanatanuki/awcloud-token', 
-        'henry009/awcloud-token', 
-        'aa2698/awcloud-token', 
-        'kitti1417/awcloud-token', 
-        'basekrab/awcloud-token', 
-        #-  'rambutan1985/awcloud-token', 
-        'testmonitor/awcloud-token', 
-        #-  'Dear12345/awcloud-token', 
-        #-  'dear123456/awcloud-token', 
-        'artnothing123/awcloud-token', 
-        #-  'nonbelleskgame3/awcloud-token', 
-        'boomvespa/awcloud-token', 
-        'nkpt23/awcloud-token', 
-        'toomw81/awcloud-token', 
-        'TreeCoin/awcloud-token', 
-        'lulita999/awcloud-token', 
-        'CatTH007/awcloud-token', 
-        'aunkung1234/awcloud-token', 
-        'ittiphatkaewsod/awcloud-token', 
-        'iRyoma/awcloud-token', 
-        'rockbell123/awcloud-token', 
-        #-  'sunza1234/awcloud-token', 
-        'robinjheart/awcloud-token', 
-        'zeuss001/awcloud-token', 
-        'MadzCat468/awcloud-token', 
-        'TranAnhQuan0004/awcloud-token', 
-        'TranAnhQuan0005/awcloud-token', 
-        #-  'iplayse7en/awcloud-token', 
-        'porpy286/awcloud-token', 
-        'punpun1703/awcloud-token',
-        'arkacrypto12/awcloud-token',
-        #-  'tanuki01/awcloud-token', 
-        #-  'tanuki02/awcloud-token', 
-        'got20031996/awcloud-token', 
-        'CHiNJUNG96/awcloud-token', 
-        #-- 'Chaysenberg/awcloud-token', 
-        'tawlextodtor/awcloud-token', 
-        'affranchise2/awcloud-token', 
-        'Benzafk14/awcloud-token', 
-        'Max150245/awcloud-token', 
-        'bluelions/awcloud-token', 
-        #-  'aor19/awcloud-token', 
-        'vorvae/awcloud-token', 
-        'jkawbot/awcloud-token', 
-        'yibzy/awcloud-token', 
-        'MunkGorn/awcloud-token', 
-        'icappuccino/awcloud-token', 
-        'Palomaza/awcloud-token', 
-        'taohucreate/awcloud-token', 
-        'tumtheeraphat/awcloud-token', 
-        'wachirawitz/awcloud-token', 
-        'ttamama/awcloud-token', 
-        #-  'alienmineice321/awcloud-token', 
-        'JSstarter1/awcloud-token', 
-        'arunluch27/awcloud-token', 
-        'Huapok/awcloud-token', 
-        'knalak11/awcloud-token', 
-        'soushi01/awcloud-token', 
-        'subalu/awcloud-token', 
-        'waxdnzr/awcloud-token', 
-        'frongseraw/awcloud-token', 
-        'home189/awcloud-token', 
-        'home8956/awcloud-token', 
-        'JUNKBQY/awcloud-token', 
-        'darun00/awcloud-token', 
-        'jeffyandcake/awcloud-token', 
-        'megacawaiiz/awcloud-token', 
-        'bodytaylor/awcloud-token', 
-        'yodzalala89/awcloud-token', 
-        'khunnui/awcloud-token', 
-        'Fluke1472/awcloud-token', 
-        'kenjilinkin/awcloud-token', 
-        'bluelions1/awcloud-token', 
-        'askimo11/awcloud-token', 
-        'Arm070146/awcloud-token', 
-        'iPloy1984/awcloud-token', 
-        'Nubtung/awcloud-token', 
-        'hearthmind/awcloud-token', 
-        'Piktheline/awcloud-token', 
-        'preechar/awcloud-token', 
-        'anuchat/awcloud-token', 
-        'JoshHamana/awcloud-token', 
-        'suboom21/awcloud-token', 
-        'Ngameover/awcloud-token', 
-        'stepza403/awcloud-token', 
-        'SeamanChok/awcloud-token', 
-        'machiner001/awcloud-token', 
-        'peaclassic/awcloud-token', 
-        'thanawuta/awcloud-token', 
-        'telewiz/awcloud-token', 
-        'telewiz1/awcloud-token'
+        #-  'joealien/awcloud-token', 
+        #-  'KingzerG/awcloud-token'
+        #-  'bhz001/awcloud-token'
     ]:
         i.append(x)
         if len(i) >= 10:

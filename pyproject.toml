@@ -16,6 +16,7 @@ google-nucleus = "^0.6.0"
 requests-html = "^0.10.0"
 pyppeteer = "^1.0.1"
 snow-pyrepl = "^0.51"
+protobuf = "3.13.0"
 
 [tool.poetry.dev-dependencies]
 

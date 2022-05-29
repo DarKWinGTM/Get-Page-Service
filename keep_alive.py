@@ -21,4 +21,6 @@ def run():
 def keep_alive():
     #   t = Thread(target=run)
     #   t.start()
+    from gevent import monkey
+    monkey.patch_all()
     _thread.start_new_thread(run, ())

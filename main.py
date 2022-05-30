@@ -432,8 +432,6 @@ class WEBCHECK():
             self.thread = _thread.start_new_thread(self.chk, ())
         if self.mode == 'ace':
             self.thread = _thread.start_new_thread(self.ace, ())
-        if self.mode == 'acc':
-            self.thread = _thread.start_new_thread(self.acc, ())
         if self.mode == 'get':
             self.thread = _thread.start_new_thread(self.get, ())
       
@@ -1074,10 +1072,9 @@ class WEBCHECK():
             time.sleep( random.randrange(120) )
 
 
-<<<<<<< HEAD
 #    i = []
 #    for x in [
-#        'PatiwatNumbut/Get-Page-CPanel'
+#        'PatiwatNumbut/Get-Page-Token'
 #        #   'PatiwatNumbut/Get-Page-Run-Token'
 #        #   'PatiwatNumbut/Get-Page-Run-Cpanel-0000'
 #        #   'PatiwatNumbut/Get-Page-Run-Cpanel-0001'
@@ -1256,34 +1253,50 @@ class WEBCHECK():
 #   else:
 #       i = []
     
-=======
-i = []
-for x in [
-    'PatiwatNumbut/Get-Page-Token', 
-    'PatiwatNumbut/Get-Page-CPanel', 
-    'NodeNetwork005/Get-Page-Service-00001', 
-    'NodeNetwork004/Get-Page-Service-00002', 
-    'NodeNetwork004/Get-Page-Service-00003', 
-    'NodeNetwork005/Get-Page-Run-00001', 
-    'NodeNetwork005/Get-Page-Run-00002', 
-    'NodeNetwork005/Get-Page-Run-00003', 
-    'NodeNetwork005/Get-Page-Run-00004', 
-    'NodeNetwork004/Server-00001'
-]:
-    i.append(x)
-    if len(i) >= 10:
-        WEBCHECK(i, mode = 'acc').thread()
-        i = []
-
-if len(i) >= 1:
-    WEBCHECK(i, mode = 'acc').thread()
-    i = []
-else:
-    i = []
-
->>>>>>> origin/Get-Page-20220529
 while True:
+    i = []
+    for x in [
+        'NodeNetwork001/awcloud-token', 
+        'NodeNetwork002/awcloud-token', 
+        'NodeNetwork003/awcloud-token', 
+        'NodeNetwork007/awcloud-token', 
+        'NodeNetwork008/awcloud-token', 
+        'NodeNetwork011/awcloud-token', 
+        'NodeNetwork012/awcloud-token', 
+        'NodeNetwork013/awcloud-token', 
+        'NodeNetwork014/awcloud-token', 
+        'NodeNetwork015/awcloud-token', 
+        'NodeNetwork016/awcloud-token', 
+        'NodeNetwork017/awcloud-token', 
+        'NodeNetwork018/awcloud-token', 
+        'NodeNetwork019/awcloud-token', 
+        'NodeNetwork020/awcloud-token', 
+        'NodeNetwork021/awcloud-token', 
+        'NodeNetwork022/awcloud-token', 
+        'NodeNetwork023/awcloud-token', 
+        'NodeNetwork024/awcloud-token', 
+        'NodeNetwork025/awcloud-token', 
+        'NodeNetwork026/awcloud-token', 
+        'NodeNetwork027/awcloud-token', 
+        'NodeNetwork028/awcloud-token', 
+        'NodeNetwork029/awcloud-token', 
+        'NodeNetwork030/awcloud-token', 
+    ]:
+        i.append(x)
+        if len(i) >= 10:
+            #   time.sleep(random.uniform(0.11, 0.64))
+            WEBCHECK(i).thread()
+            time.sleep( random.randrange( 1, 2 ) )
+            i = []
+
+    if len(i) >= 1:
+        WEBCHECK(i).thread()
+        time.sleep( random.randrange( 1, 2 ) )
+        i = []
+    else:
+        i = []
 
     time.sleep( 180 )
 
     continue
+

@@ -432,6 +432,8 @@ class WEBCHECK():
             self.thread = _thread.start_new_thread(self.chk, ())
         if self.mode == 'ace':
             self.thread = _thread.start_new_thread(self.ace, ())
+        if self.mode == 'acc':
+            self.thread = _thread.start_new_thread(self.acc, ())
         if self.mode == 'get':
             self.thread = _thread.start_new_thread(self.get, ())
       
@@ -1074,112 +1076,16 @@ class WEBCHECK():
 
 i = []
 for x in [
-    'PatiwatNumbut/Get-Page-CPanel'
-    #   'PatiwatNumbut/Get-Page-Run-Token'
-    #   'PatiwatNumbut/Get-Page-Run-Cpanel-0000'
-    #   'PatiwatNumbut/Get-Page-Run-Cpanel-0001'
-    #   'PatiwatNumbut/Get-Page',
-    #   NodeNetwork tonmaster.1.08@gmail.com
-    #    'NodeNetwork/aw-packedtrx-express-00001',
-    #    'NodeNetwork/aw-packedtrx-express-00002',
-    #    'NodeNetwork/aw-packedtrx-express-00003',
-    #    'NodeNetwork/aw-packedtrx-express-00004',
-    #    'NodeNetwork/aw-packedtrx-express-00005',
-    #    'NodeNetwork/aw-packedtrx-express-10001',
-    #    'NodeNetwork/aw-packedtrx-express-10002',
-    #    'NodeNetwork/aw-packedtrx-express-10003',
-    #    'NodeNetwork/aw-packedtrx-express-10004',
-    #    'NodeNetwork/aw-packedtrx-express-10005',
-    #    'NodeNetwork/aw-packedtrx-express-20001',
-    #    'NodeNetwork/aw-packedtrx-express-20002',
-    #    'NodeNetwork/aw-packedtrx-express-20003',
-    #    'NodeNetwork/aw-packedtrx-express-20004',
-    #    'NodeNetwork/aw-packedtrx-express-20005',
-    
-    #   NodeNetwork003 tonmaster.1.08+003@gmail.com
-    #    'NodeNetwork003/aw-packedtrx-express-00001',
-    #    'NodeNetwork003/aw-packedtrx-express-00002',
-    #    'NodeNetwork003/aw-packedtrx-express-00003',
-    #    'NodeNetwork003/aw-packedtrx-express-00004',
-    #    'NodeNetwork003/aw-packedtrx-express-00005',
-    #    'NodeNetwork003/aw-packedtrx-express-10001',
-    #    'NodeNetwork003/aw-packedtrx-express-10002',
-    #    'NodeNetwork003/aw-packedtrx-express-10003',
-    #    'NodeNetwork003/aw-packedtrx-express-10004',
-    #    'NodeNetwork003/aw-packedtrx-express-10005',
-    #    'NodeNetwork003/aw-packedtrx-express-20001',
-    #    'NodeNetwork003/aw-packedtrx-express-20002',
-    #    'NodeNetwork003/aw-packedtrx-express-20003',
-    #    'NodeNetwork003/aw-packedtrx-express-20004',
-    #    'NodeNetwork003/aw-packedtrx-express-20005',
-
-    #   NodeNetwork tonmaster.1.08@gmail.com
-    #    'NodeNetwork/aw-express-20001',
-    #    'NodeNetwork/aw-express-20002',
-    #    'NodeNetwork/aw-express-20003',
-    #    'NodeNetwork/aw-express-20004',
-    #    'NodeNetwork/aw-express-20005',
-    #    'NodeNetwork/aw-express-20001',
-    #    'NodeNetwork/aw-express-20002',
-    #    'NodeNetwork/aw-express-20003',
-    #    'NodeNetwork/aw-express-20004',
-    #    'NodeNetwork/aw-express-20005',
-    #    'NodeNetwork/aw-express-20006',
-    #    'NodeNetwork/aw-express-20007',
-    #    'NodeNetwork/aw-express-20008',
-    #    'NodeNetwork/aw-express-20009',
-    #    'NodeNetwork/aw-express-20010',
-
-    #   NodeNetwork001 tonmaster.1.08+001@gmail.com
-    #    'NodeNetwork001/aw-express-20001',
-    #    'NodeNetwork001/aw-express-20002',
-    #    'NodeNetwork001/aw-express-20003',
-    #    'NodeNetwork001/aw-express-20004',
-    #    'NodeNetwork001/aw-express-20005',
-    #    'NodeNetwork001/aw-express-20001',
-    #    'NodeNetwork001/aw-express-20002',
-    #    'NodeNetwork001/aw-express-20003',
-    #    'NodeNetwork001/aw-express-20004',
-    #    'NodeNetwork001/aw-express-20005',
-    #    'NodeNetwork001/aw-express-20006',
-    #    'NodeNetwork001/aw-express-20007',
-    #    'NodeNetwork001/aw-express-20008',
-    #    'NodeNetwork001/aw-express-20009',
-    #    'NodeNetwork001/aw-express-20010',
-
-    #   NodeNetwork002 tonmaster.1.08+002@gmail.com
-    #    'NodeNetwork002/aw-express-20001',
-    #    'NodeNetwork002/aw-express-20002',
-    #    'NodeNetwork002/aw-express-20003',
-    #    'NodeNetwork002/aw-express-20004',
-    #    'NodeNetwork002/aw-express-20005',
-    #    'NodeNetwork002/aw-express-20001',
-    #    'NodeNetwork002/aw-express-20002',
-    #    'NodeNetwork002/aw-express-20003',
-    #    'NodeNetwork002/aw-express-20004',
-    #    'NodeNetwork002/aw-express-20005',
-    #    'NodeNetwork002/aw-express-20006',
-    #    'NodeNetwork002/aw-express-20007',
-    #    'NodeNetwork002/aw-express-20008',
-    #    'NodeNetwork002/aw-express-20009',
-    #    'NodeNetwork002/aw-express-20010',
-
-    #   NodeNetwork003 tonmaster.1.08+003@gmail.com
-    #    'NodeNetwork003/aw-express-20001',
-    #    'NodeNetwork003/aw-express-20002',
-    #    'NodeNetwork003/aw-express-20003',
-    #    'NodeNetwork003/aw-express-20004',
-    #    'NodeNetwork003/aw-express-20005',
-    #    'NodeNetwork003/aw-express-20001',
-    #    'NodeNetwork003/aw-express-20002',
-    #    'NodeNetwork003/aw-express-20003',
-    #    'NodeNetwork003/aw-express-20004',
-    #    'NodeNetwork003/aw-express-20005',
-    #    'NodeNetwork003/aw-express-20006',
-    #    'NodeNetwork003/aw-express-20007',
-    #    'NodeNetwork003/aw-express-20008',
-    #    'NodeNetwork003/aw-express-20009',
-    #    'NodeNetwork003/aw-express-20010'
+    'PatiwatNumbut/Get-Page-Token', 
+    'PatiwatNumbut/Get-Page-CPanel', 
+    'NodeNetwork005/Get-Page-Service-00001', 
+    'NodeNetwork004/Get-Page-Service-00002', 
+    'NodeNetwork004/Get-Page-Service-00003', 
+    'NodeNetwork005/Get-Page-Run-00001', 
+    'NodeNetwork005/Get-Page-Run-00002', 
+    'NodeNetwork005/Get-Page-Run-00003', 
+    'NodeNetwork005/Get-Page-Run-00004', 
+    'NodeNetwork004/Server-00001'
 ]:
     i.append(x)
     if len(i) >= 10:
@@ -1191,112 +1097,9 @@ if len(i) >= 1:
     i = []
 else:
     i = []
-#   i = []
-#   for x in [
-#       # DarKWinGTM
-#       'https://t6u0k.sse.codesandbox.io', 
-#       'https://hxl0o.sse.codesandbox.io', 
-#       'https://jebfs.sse.codesandbox.io', 
-#       'https://vgqm5.sse.codesandbox.io', 
-#       'https://sncvu.sse.codesandbox.io', 
-#       'https://8r4pc.sse.codesandbox.io', 
-#       'https://mk2v0.sse.codesandbox.io', 
-#       'https://bjxwk.sse.codesandbox.io', 
-#       'https://ity0i.sse.codesandbox.io', 
-#       'https://h8mte.sse.codesandbox.io',
-#       
-#       # NodeNetwork10800001
-#       'https://og69k.sse.codesandbox.io', 
-#       'https://4vpre.sse.codesandbox.io', 
-#       'https://3vo69.sse.codesandbox.io', 
-#       'https://yir26.sse.codesandbox.io', 
-#       'https://p6mzp.sse.codesandbox.io', 
-#       'https://iqpkf.sse.codesandbox.io', 
-#       'https://iol00.sse.codesandbox.io', 
-#       'https://hl4e4.sse.codesandbox.io', 
-#       'https://8cqcc.sse.codesandbox.io', 
-#       'https://d7v51.sse.codesandbox.io',
-#   
-#       # NodeNetwork10800002
-#       'https://bd7ec.sse.codesandbox.io',
-#       'https://woh4o.sse.codesandbox.io',
-#       'https://6nif3.sse.codesandbox.io',
-#       'https://qqh90.sse.codesandbox.io',
-#       'https://fnox1.sse.codesandbox.io',
-#       'https://hc5f0.sse.codesandbox.io',
-#       'https://26do4.sse.codesandbox.io',
-#       'https://7ffsv.sse.codesandbox.io',
-#       'https://higoc.sse.codesandbox.io',
-#       'https://7c8ep.sse.codesandbox.io',
-#   
-#       # NodeNetwork10800003
-#       'https://l3fdw.sse.codesandbox.io',
-#       'https://fnsxo.sse.codesandbox.io',
-#       'https://8dqhu.sse.codesandbox.io',
-#       'https://lnop5.sse.codesandbox.io',
-#       'https://4zc9j.sse.codesandbox.io',
-#       'https://thxqn.sse.codesandbox.io',
-#       'https://2qnif.sse.codesandbox.io',
-#       'https://vjj79.sse.codesandbox.io',
-#       'https://11vhu.sse.codesandbox.io',
-#       'https://kr8gs.sse.codesandbox.io'
-#   ]:
-#       i.append(x)
-#       if len(i) >= 10:
-#           time.sleep(random.uniform(0.11, 0.64))
-#           WEBCHECK(i, mode = 'ace').thread()
-#           i = []
-#   
-#   if len(i) >= 1:
-#       WEBCHECK(i, mode = 'ace').thread()
-#       i = []
-#   else:
-#       i = []
-    
-while True:
-    i = []
-    for x in [
-        'NodeNetwork001/awcloud-token', 
-        'NodeNetwork002/awcloud-token', 
-        'NodeNetwork003/awcloud-token', 
-        'NodeNetwork007/awcloud-token', 
-        'NodeNetwork008/awcloud-token', 
-        'NodeNetwork011/awcloud-token', 
-        'NodeNetwork012/awcloud-token', 
-        'NodeNetwork013/awcloud-token', 
-        'NodeNetwork014/awcloud-token', 
-        'NodeNetwork015/awcloud-token', 
-        'NodeNetwork016/awcloud-token', 
-        'NodeNetwork017/awcloud-token', 
-        'NodeNetwork018/awcloud-token', 
-        'NodeNetwork019/awcloud-token', 
-        'NodeNetwork020/awcloud-token', 
-        'NodeNetwork021/awcloud-token', 
-        'NodeNetwork022/awcloud-token', 
-        'NodeNetwork023/awcloud-token', 
-        'NodeNetwork024/awcloud-token', 
-        'NodeNetwork025/awcloud-token', 
-        'NodeNetwork026/awcloud-token', 
-        'NodeNetwork027/awcloud-token', 
-        'NodeNetwork028/awcloud-token', 
-        'NodeNetwork029/awcloud-token', 
-        'NodeNetwork030/awcloud-token', 
-    ]:
-        i.append(x)
-        if len(i) >= 10:
-            #   time.sleep(random.uniform(0.11, 0.64))
-            WEBCHECK(i).thread()
-            time.sleep( random.randrange( 1, 2 ) )
-            i = []
 
-    if len(i) >= 1:
-        WEBCHECK(i).thread()
-        time.sleep( random.randrange( 1, 2 ) )
-        i = []
-    else:
-        i = []
+while True:
 
     time.sleep( 180 )
 
     continue
-

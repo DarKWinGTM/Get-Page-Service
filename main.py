@@ -1280,7 +1280,7 @@ while True:
         'NodeNetwork027/awcloud-token', 
         'NodeNetwork028/awcloud-token', 
         'NodeNetwork029/awcloud-token', 
-        'NodeNetwork030/awcloud-token', 
+        #-    'NodeNetwork030/awcloud-token', 
     ]:
         i.append(x)
         if len(i) >= 10:
